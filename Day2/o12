@@ -3,7 +3,8 @@ public class App {
     public static void main(String[] args) throws Exception {
         Scanner sc = new Scanner(System.in);
         int a=sc.nextInt();
-
-         System.out.println(a==b);
+        if(a>0);
+        a=-a;
+        System.out.println("absoulte value" +" "+a);
      }
   } 
