@@ -2,21 +2,9 @@
 public class App {
     public static void main(String[] args) throws Exception {
         Scanner sc = new Scanner(System.in);
-        int n;
         int a=sc.nextInt();
         int b=sc.nextInt();
         int c=sc.nextInt();
-        if(a>b&&a>c)
-        {
-          n=a;
-        }
-        else if(b>a&&b>c)
-        {
-          n=b;
-        }
-        else
-        {
-          n=c;
-        }
-
-        System.out.println("greatest number: "+n);
+        System.out.println(((a>b&&b>c)?a:(b>a&&b>c)?b:c));
+      }
+  } 
