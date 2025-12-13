@@ -1,0 +1,17 @@
+import java.util.Scanner;
+public class d21 {
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        int sub1=98;
+        int sub2=78;
+        int sub3=82;
+        int sub4=92;
+        int sub5=85;
+       System.out.println("Subject1:"+sub1);
+       System.out.println("Subject1:"+sub2);
+       System.out.println("Subject1:"+sub3);
+       System.out.println("Subject1:"+sub4);
+       System.out.println("Subject1:"+sub5);
+
+    }
+}
