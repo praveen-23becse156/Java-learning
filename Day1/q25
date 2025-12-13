@@ -1,8 +1,6 @@
-public class app {
+public class App {
     public static void main(String[] args) throws Exception {
         
         System.out.printf("mevani,gobichettipalayam\n"+"pincode-638313\n"+"tamilnadu\n");
-
-        
     }
 }
