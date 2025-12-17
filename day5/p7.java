@@ -9,7 +9,7 @@ public class p7
 		{
 			for(int j=1;j<=n;j++)
 			{
-				if(i==1||j==1||i+j==n+1)
+				if(i+j<=n+1)
 				{
 					System.out.print("* ");
 				}
