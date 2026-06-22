@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — Career Website</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<nav class="nav">
+  <a class="nav__brand" href="index.html" style="text-decoration:none;color:#fff;"><span class="badge">CW</span> Career Website</a>
+  <div class="nav__links">
+    <span class="btn-link" id="userGreeting"></span>
+    <a class="btn-link" href="#" id="logoutBtn">Log out</a>
+  </div>
+</nav>
+
+<div class="wrap" style="padding-top:2.5rem;">
+  <h2>Your dashboard</h2>
+  <p class="muted">Take the quiz to get a stream recommendation, or revisit your past results below.</p>
+
+  <div class="card" style="margin:1.5rem 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
+    <div>
+      <span class="badge badge--amber">QUIZ</span>
+      <h3 style="margin-top:.6rem;">Not sure which stream fits you?</h3>
+      <p class="muted" style="margin:0;">8 quick questions, about 2 minutes.</p>
+    </div>
+    <a class="btn btn--primary" href="quiz.html">Take the quiz</a>
+  </div>
+
+  <div id="latestResult"></div>
+
+  <h3 style="margin-top:2.5rem;">All streams</h3>
+  <div class="stream-grid" id="streamGrid"></div>
+
+  <h3 style="margin-top:2.5rem;">Your past results</h3>
+  <div id="historyList" class="card muted">No results yet — take the quiz above.</div>
+</div>
+
+<footer style="margin-top:2rem;">Career Website</footer>
+
+<script src="js/streams-data.js"></script>
+<script>
+async function loadDashboard() {
+  const res = await fetch("/api/me");
+  const data = await res.json();
+  if (!data.loggedIn) {
+    window.location.href = "login.html";
+    return;
+  }
+  document.getElementById("userGreeting").textContent = "Hi, " + data.name;
+
+  // streams grid
+  const codes = ["CSE","MECH","ECE","EEE","CIVIL","IT"];
+  document.getElementById("streamGrid").innerHTML = codes.map(c => `
+    <div class="card stream-card">
+      <span class="badge badge--amber">${c}</span>
+      <h3>${STREAM_LABELS[c]}</h3>
+      <p class="muted">${STREAM_BLURBS[c]}</p>
+    </div>
+  `).join("");
+
+  // results history
+  if (data.results && data.results.length) {
+    const latest = data.results[0];
+    document.getElementById("latestResult").innerHTML = `
+      <div class="result-hero" style="margin-bottom:1.5rem;">
+        <span class="badge badge--filled">${latest.recommended}</span>
+        <div>
+          <p style="margin:0;color:#C8CFE6;font-size:.85rem;">YOUR LATEST RECOMMENDATION</p>
+          <h2 style="color:#fff;margin:.2rem 0 0;">${STREAM_LABELS[latest.recommended]}</h2>
+        </div>
+      </div>
+    `;
+
+    document.getElementById("historyList").className = "";
+    document.getElementById("historyList").innerHTML = data.results.map(r => `
+      <div class="card" style="margin-bottom:.8rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;">
+        <div>
+          <span class="badge">${r.recommended}</span>
+          <span class="muted" style="margin-left:.6rem;font-size:.85rem;">${new Date(r.date).toLocaleString()}</span>
+        </div>
+        <span>${STREAM_LABELS[r.recommended]}</span>
+      </div>
+    `).join("");
+  }
+}
+
+document.getElementById("logoutBtn").addEventListener("click", async (e) => {
+  e.preventDefault();
+  await fetch("/api/logout", { method: "POST" });
+  window.location.href = "login.html";
+});
+
+loadDashboard();
+</script>
+</body>
+</html>

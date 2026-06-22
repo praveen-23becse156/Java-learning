@@ -1,4 +1,5 @@
 
+
   import java.util.Scanner;
 public class o23{
     public static void main(String[] args) throws Exception {

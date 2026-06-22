@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — Career Website</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<nav class="nav">
+  <a class="nav__brand" href="index.html" style="text-decoration:none;color:#fff;"><span class="badge">CW</span> Career Website</a>
+  <div class="nav__links"><a class="btn-link" href="dashboard.html">Exit quiz</a></div>
+</nav>
+
+<div class="wrap" style="max-width:680px;padding-top:2.5rem;">
+  <div class="quiz-progress"><div class="quiz-progress__bar" id="progressBar"></div></div>
+
+  <div id="quizArea"></div>
+  <div id="resultArea" style="display:none;"></div>
+</div>
+
+<script src="js/streams-data.js"></script>
+<script>
+let questions = [];
+let current = 0;
+let answers = [];
+
+async function init() {
+  const me = await (await fetch("/api/me")).json();
+  if (!me.loggedIn) { window.location.href = "login.html"; return; }
+
+  questions = await (await fetch("/api/questions")).json();
+  answers = new Array(questions.length).fill(null);
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[current];
+  document.getElementById("progressBar").style.width = `${(current / questions.length) * 100}%`;
+
+  document.getElementById("quizArea").innerHTML = `
+    <span class="badge badge--amber">QUESTION ${current + 1} / ${questions.length}</span>
+    <h2 style="margin-top:.8rem;">${q.q}</h2>
+    <div class="option-list" id="optionList">
+      ${q.options.map((opt, i) => `
+        <button type="button" class="option ${answers[current] === i ? "selected" : ""}" data-index="${i}">${opt}</button>
+      `).join("")}
+    </div>
+    <div style="margin-top:1.6rem;display:flex;justify-content:space-between;">
+      <button class="btn btn--ghost" id="backBtn" ${current === 0 ? "disabled style='opacity:.4;'" : ""}>Back</button>
+      <button class="btn btn--primary" id="nextBtn" ${answers[current] === null ? "disabled style='opacity:.5;'" : ""}>
+        ${current === questions.length - 1 ? "See my result" : "Next"}
+      </button>
+    </div>
+  `;
+
+  document.querySelectorAll(".option").forEach(btn => {
+    btn.addEventListener("click", () => {
+      answers[current] = parseInt(btn.dataset.index, 10);
+      renderQuestion();
+    });
+  });
+
+  document.getElementById("backBtn").addEventListener("click", () => {
+    if (current > 0) { current--; renderQuestion(); }
+  });
+
+  document.getElementById("nextBtn").addEventListener("click", () => {
+    if (answers[current] === null) return;
+    if (current < questions.length - 1) {
+      current++;
+      renderQuestion();
+    } else {
+      submitQuiz();
+    }
+  });
+}
+
+async function submitQuiz() {
+  document.getElementById("progressBar").style.width = "100%";
+  document.getElementById("quizArea").innerHTML = `<p class="muted">Calculating your result…</p>`;
+
+  const res = await fetch("/api/quiz/submit", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ answers })
+  });
+  const data = await res.json();
+  if (!res.ok) {
+    document.getElementById("quizArea").innerHTML = `<p class="error-msg" style="display:block;">${data.error}</p>`;
+    return;
+  }
+
+  document.getElementById("quizArea").style.display = "none";
+  const resultArea = document.getElementById("resultArea");
+  resultArea.style.display = "block";
+  resultArea.innerHTML = `
+    <div class="result-hero">
+      <span class="badge badge--filled">${data.recommended.code}</span>
+      <div>
+        <p style="margin:0;color:#C8CFE6;font-size:.85rem;">YOUR RECOMMENDED STREAM</p>
+        <h2 style="color:#fff;margin:.2rem 0 0;">${data.recommended.name}</h2>
+        <p style="color:#C8CFE6;margin:.4rem 0 0;">${data.recommended.blurb}</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:1.8rem;">Careers this can lead to</h3>
+    <div class="stream-grid">
+      ${data.recommended.careers.map(c => `<div class="card"><span class="badge">→</span> ${c}</div>`).join("")}
+    </div>
+
+    <h3 style="margin-top:1.8rem;">Full breakdown</h3>
+    <div class="card">
+      ${data.scores.map(s => `
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--line);">
+          <span><span class="badge" style="margin-right:.6rem;">${s.code}</span>${s.name}</span>
+          <strong>${s.points} pts</strong>
+        </div>
+      `).join("")}
+    </div>
+
+    <div style="margin-top:1.8rem;display:flex;gap:.8rem;">
+      <a class="btn btn--primary" href="dashboard.html">Back to dashboard</a>
+      <a class="btn btn--ghost" href="quiz.html" onclick="location.reload()">Retake quiz</a>
+    </div>
+  `;
+}
+
+init();
+</script>
+</body>
+</html>

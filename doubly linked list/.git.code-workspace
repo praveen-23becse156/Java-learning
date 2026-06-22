@@ -1,0 +1,40 @@
+{
+	"folders": [
+		{
+			"path": "../.git"
+		},
+		{
+			"path": "../Day1"
+		},
+		{
+			"path": "../Day2"
+		},
+		{
+			"path": "../Day3"
+		},
+		{
+			"path": "../Day4"
+		},
+		{
+			"path": "../day5"
+		},
+		{
+			"path": "../day7"
+		},
+		{
+			"path": "."
+		},
+		{
+			"path": "../DSA day1"
+		},
+		{
+			"path": "../DSA day2"
+		},
+		{
+			"path": "../DSA learning"
+		},
+		{
+			"path": "../linked list"
+		}
+	]
+}

@@ -1,0 +1,171 @@
+/* ===== Career Website — design tokens =====
+   Display: Space Grotesk | Body: Inter | Badge/mono: JetBrains Mono
+   Palette: navy base, paper surface, amber + coral accents
+*/
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap');
+
+:root{
+  --navy:#101A33;
+  --slate:#27365B;
+  --paper:#F3EFE6;
+  --amber:#FFB627;
+  --coral:#FF6B5E;
+  --ink:#101A33;
+  --muted:#5C6788;
+  --line:rgba(16,26,51,0.12);
+  --radius:14px;
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Inter',sans-serif;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+
+h1,h2,h3,.display{
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:700;
+  letter-spacing:-0.01em;
+  margin:0 0 .4em;
+}
+
+a{color:inherit;}
+
+.badge{
+  font-family:'JetBrains Mono',monospace;
+  font-weight:700;
+  font-size:.78rem;
+  letter-spacing:.04em;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:.35em .7em;
+  border:1.5px solid var(--ink);
+  border-radius:6px;
+  background:var(--paper);
+  color:var(--ink);
+}
+.badge--filled{background:var(--ink);color:var(--paper);}
+.badge--amber{border-color:var(--amber);background:var(--amber);color:var(--navy);}
+.badge--coral{border-color:var(--coral);background:var(--coral);color:#fff;}
+
+/* ---------- nav ---------- */
+.nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.1rem 2rem;
+  background:var(--navy);
+  color:#fff;
+}
+.nav__brand{
+  font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.15rem;
+  display:flex;align-items:center;gap:.5rem;
+}
+.nav__brand .badge{background:var(--amber);border-color:var(--amber);color:var(--navy);}
+.nav__links{display:flex;gap:.75rem;align-items:center;}
+.nav a.btn-link{
+  color:#fff;text-decoration:none;font-weight:500;font-size:.95rem;opacity:.85;
+}
+.nav a.btn-link:hover{opacity:1;}
+
+/* ---------- buttons ---------- */
+.btn{
+  font-family:'Inter',sans-serif;
+  font-weight:600;font-size:.95rem;
+  padding:.8rem 1.4rem;
+  border-radius:999px;
+  border:none;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.btn:hover{transform:translateY(-2px);}
+.btn:focus-visible{outline:3px solid var(--amber);outline-offset:2px;}
+.btn--primary{background:var(--amber);color:var(--navy);}
+.btn--primary:hover{box-shadow:0 8px 20px rgba(255,182,39,.45);}
+.btn--ghost{background:transparent;color:var(--navy);border:1.5px solid var(--ink);}
+.btn--block{width:100%;}
+
+/* ---------- layout shells ---------- */
+.wrap{max-width:1080px;margin:0 auto;padding:0 1.5rem;}
+.card{
+  background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+  padding:1.6rem;
+}
+.section{padding:3rem 0;}
+.muted{color:var(--muted);}
+
+/* ---------- hero (badge wall, the signature element) ---------- */
+.hero{
+  background:var(--navy);color:#fff;padding:4.5rem 0 3.5rem;
+}
+.hero__grid{display:grid;grid-template-columns:1.1fr .9fr;gap:2.5rem;align-items:center;}
+.hero h1{font-size:clamp(2rem,4vw,3rem);color:#fff;}
+.hero p{color:#C8CFE6;font-size:1.05rem;max-width:42ch;}
+.badge-wall{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;
+}
+.badge-wall .badge{
+  padding:1.1rem .5rem;font-size:.95rem;border-radius:10px;
+  border-color:rgba(255,255,255,.25);color:#fff;background:rgba(255,255,255,.04);
+  flex-direction:column;
+}
+.badge-wall .badge small{
+  display:block;font-family:'Inter',sans-serif;font-weight:400;font-size:.62rem;
+  letter-spacing:0;color:#9AA6CC;margin-top:.3em;
+}
+
+/* ---------- forms ---------- */
+.form-field{margin-bottom:1.1rem;}
+label{display:block;font-weight:600;font-size:.88rem;margin-bottom:.35rem;}
+input[type=text],input[type=email],input[type=password]{
+  width:100%;padding:.75rem .9rem;border-radius:10px;border:1.5px solid var(--line);
+  font-size:.95rem;font-family:'Inter',sans-serif;background:#fff;
+}
+input:focus{outline:none;border-color:var(--navy);}
+.auth-shell{
+  max-width:420px;margin:3.5rem auto;
+}
+.error-msg{
+  background:#FFE8E5;border:1px solid var(--coral);color:#9A2A20;
+  padding:.7rem 1rem;border-radius:10px;font-size:.88rem;margin-bottom:1rem;display:none;
+}
+.success-msg{
+  background:#EAF7EC;border:1px solid #3F9151;color:#235A2D;
+  padding:.7rem 1rem;border-radius:10px;font-size:.88rem;margin-bottom:1rem;display:none;
+}
+
+/* ---------- stream cards ---------- */
+.stream-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1rem;}
+.stream-card h3{font-size:1.05rem;margin-bottom:.3rem;}
+.stream-card .badge{margin-bottom:.7rem;}
+.stream-card ul{margin:.6rem 0 0;padding-left:1.1rem;font-size:.88rem;color:var(--muted);}
+
+/* ---------- quiz ---------- */
+.quiz-progress{height:6px;border-radius:999px;background:var(--line);overflow:hidden;margin-bottom:1.6rem;}
+.quiz-progress__bar{height:100%;background:var(--amber);width:0%;transition:width .25s ease;}
+.option-list{display:flex;flex-direction:column;gap:.6rem;}
+.option{
+  text-align:left;padding:.9rem 1.1rem;border-radius:12px;border:1.5px solid var(--line);
+  background:#fff;cursor:pointer;font-size:.95rem;font-family:'Inter',sans-serif;
+}
+.option:hover{border-color:var(--navy);}
+.option.selected{border-color:var(--amber);background:#FFF7E6;}
+
+/* ---------- result ---------- */
+.result-hero{
+  background:var(--navy);color:#fff;border-radius:var(--radius);padding:2rem;
+  display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;
+}
+.result-hero .badge{font-size:1.4rem;padding:.6em 1em;}
+
+footer{
+  padding:2rem 0;text-align:center;color:var(--muted);font-size:.85rem;
+}
+
+@media (max-width:760px){
+  .hero__grid{grid-template-columns:1fr;}
+  .nav{padding:1rem;}
+}

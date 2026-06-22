@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Career Website — Find Your Stream</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav__brand"><span class="badge">CW</span> Career Website</div>
+  <div class="nav__links">
+    <a class="btn-link" href="login.html">Log in</a>
+    <a class="btn btn--primary" href="signup.html">Create account</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero__grid">
+    <div>
+      <span class="badge badge--amber">FOR STUDENTS, GRADE 9–12</span>
+      <h1>Pick your stream with confidence, not guesswork.</h1>
+      <p>CSE? Mechanical? Civil? Career Website turns the confusion younger students face when choosing an engineering stream into a short, honest quiz — backed by real career paths, not random advice.</p>
+      <div style="margin-top:1.6rem;display:flex;gap:.8rem;flex-wrap:wrap;">
+        <a class="btn btn--primary" href="signup.html">Create your account</a>
+        <a class="btn btn--ghost" href="login.html" style="color:#fff;border-color:rgba(255,255,255,.4);">I already have one</a>
+      </div>
+    </div>
+    <div class="badge-wall" id="badgeWall">
+      <!-- filled by js -->
+    </div>
+  </div>
+</header>
+
+<section class="section">
+  <div class="wrap">
+    <h2>How it works</h2>
+    <div class="stream-grid">
+      <div class="card">
+        <span class="badge badge--filled">01</span>
+        <h3 style="margin-top:.7rem;">Create an account</h3>
+        <p class="muted">Sign up with your name and email so your results are saved to your profile.</p>
+      </div>
+      <div class="card">
+        <span class="badge badge--filled">02</span>
+        <h3 style="margin-top:.7rem;">Take the 8-question quiz</h3>
+        <p class="muted">Quick questions about what you enjoy — no jargon, no pressure.</p>
+      </div>
+      <div class="card">
+        <span class="badge badge--filled">03</span>
+        <h3 style="margin-top:.7rem;">Get your recommended stream</h3>
+        <p class="muted">See your top match plus real career paths it leads to, and revisit anytime.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0;">
+  <div class="wrap">
+    <h2>Streams covered</h2>
+    <div class="stream-grid" id="streamGrid"></div>
+  </div>
+</section>
+
+<footer>Career Website — built to help students choose with clarity.</footer>
+
+<script src="js/streams-data.js"></script>
+<script>
+  const wallCodes = ["CSE","MECH","ECE","EEE","CIVIL","IT"];
+  document.getElementById("badgeWall").innerHTML = wallCodes.map(c =>
+    `<span class="badge">${c}<small>${STREAM_LABELS[c]}</small></span>`
+  ).join("");
+
+  document.getElementById("streamGrid").innerHTML = wallCodes.map(c => `
+    <div class="card stream-card">
+      <span class="badge badge--amber">${c}</span>
+      <h3>${STREAM_LABELS[c]}</h3>
+      <p class="muted">${STREAM_BLURBS[c]}</p>
+    </div>
+  `).join("");
+</script>
+</body>
+</html>

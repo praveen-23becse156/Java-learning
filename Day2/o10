@@ -3,6 +3,10 @@ public class App {
     public static void main(String[] args) throws Exception {
         Scanner sc = new Scanner(System.in);
         int a=sc.nextInt();
+        while(n!=0)
+        {
+            temp=%10
+        }
 
          System.out.println(a==b);
      }
